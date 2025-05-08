@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model, authenticate, login as auth_logi
 from django.views.generic import CreateView
 
 # from django.contrib.auth.forms import UserCreationForm
-from .forms import MyUserCreationForm
+from .forms import MyUserCreationForm, CustomLoginForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 
@@ -24,6 +24,9 @@ class MyLoginView(LoginView):
     # success_url = reverse_lazy("home")  # optional: force redirect URL
     template_name = "app_users/login.html"
 
+    def get_form_class(self):
+        return CustomLoginForm  # Use your custom login form
+
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['title'] = 'My Awesome Login Page'
@@ -32,4 +35,4 @@ class MyLoginView(LoginView):
 
 class MyLogoutView(LogoutView):
     pass
-    # template_name = "registration/logged_out.html"
+    # template_name = "registration/logged_out.html" # only used if no redirects to show info only

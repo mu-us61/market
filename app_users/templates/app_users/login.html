@@ -1,11 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load cache_bust %}
+{% block extrahead %}
+    <link rel="stylesheet"
+          href="{% static 'app_users/css/app_users.css' %}?{% cache_bust %}">
+{% endblock extrahead %}
 {% block title %}
     login
 {% endblock title %}
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        {{ form }}
-        <button type="submit">submit</button>
+        <h2>Giris yap</h2>
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}<p class="error">{{ error }}</p>{% endfor %}
+        {% endif %}
+        {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}<div class="help-text">{{ field.help_text }}</div>{% endif %}
+                {% if field.errors %}
+                    {% for error in field.errors %}<p class="error">{{ error }}</p>{% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit">onayla</button>
     </form>
 {% endblock content %}

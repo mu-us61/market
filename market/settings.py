@@ -10,6 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from app_users.validators import (  # Adjust the import path to match your app
+    CustomUserAttributeSimilarityValidator,
+    CustomMinimumLengthValidator,
+    CustomCommonPasswordValidator,
+    CustomNumericPasswordValidator,
+)
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "app_users",
+    "app_products",
 ]
 
 MIDDLEWARE = [
@@ -84,18 +91,26 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
+
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "app_users.validators.CustomUserAttributeSimilarityValidator",
+        "OPTIONS": {
+            "user_attributes": ("username", "email"),
+            "max_similarity": 0.7,
+        },
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "app_users.validators.CustomMinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 8,
+        },
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "app_users.validators.CustomCommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "app_users.validators.CustomNumericPasswordValidator",
     },
 ]
 
@@ -131,5 +146,5 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 
 LOGIN_REDIRECT_URL = "home"  # where user goes after login
-# LOGOUT_REDIRECT_URL = "home"  # where user goes after logout
+LOGOUT_REDIRECT_URL = "home"  # where user goes after logout
 LOGIN_URL = "login"  # used by @login_required

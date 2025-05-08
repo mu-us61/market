@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+    kayit ol
+{% endblock title %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <h2>Kayit ol</h2>
+        {% if form.non_field_errors %}
+            {% for error in non_field_errors %}<p>{{ error }}</p>{% endfor %}
+        {% endif %}
+        {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}<div>{{ field.help_text }}</div>{% endif %}
+                {% if field.errors %}
+                    {% for error in field.errors %}<p>{{ error }}</p>{% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit">onayla</button>
+    </form>
+{% endblock content %}

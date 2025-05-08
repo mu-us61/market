@@ -1,0 +1,77 @@
+<!-- base.html -->
+{% load static %}
+{% load cache_bust %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="{% static 'css/base.css' %}?{% cache_bust %}">
+        <title>
+            {% block title %}
+                base.html title
+            {% endblock title %}
+        </title>
+    </head>
+    <body>
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="container">
+                <a href="#" class="logo">Ecommerce</a>
+                <nav class="nav-links">
+                    <ul>
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'logout' %}">Logout</a>
+                            </li>
+                            <li>
+                                <a href="#">Profile</a>
+                            </li>
+                            <li>
+                                <a href="#" class="cart-icon">Cart 🛒</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'login' %}">Login</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'register' %}">Register</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <!-- Main Content -->
+        <main class="content">
+            <div class="container">
+                {% block content %}
+                    base.html content
+                {% endblock content %}
+            </div>
+        </main>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <ul class="footer-links">
+                    <li>
+                        <a href="#">About Us</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                    <li>
+                        <a href="#">Privacy Policy</a>
+                    </li>
+                    <li>
+                        <a href="#">Terms of Service</a>
+                    </li>
+                </ul>
+                <p>c 2023 My Ecommerce Site. All rights reserved.</p>
+            </div>
+        </footer>
+    </body>
+</html>
